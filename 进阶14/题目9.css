@@ -1,0 +1,140 @@
+*{
+	box-sizing: border-box;
+	 margin: 0;
+   padding: 0;
+}
+
+ul li{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a{
+	text-decoration: none;
+	color: #111;
+}
+
+
+.box{
+	width: 622px;
+	margin: 0 auto;
+
+}
+
+.clear:after{
+	content:'';
+	clear: both;
+	display: block;
+}
+
+.nav{
+	margin: 0;
+	padding: 0;
+}
+
+.nav li{
+  float: left;
+  display: inline-block;
+  border-right: 1px solid #ccc;
+}
+.nav li a{
+	display: inline-block;
+		padding: 10px 10px;
+}
+.nav li:nth-child(1){
+	border-left: 1px solid #ccc;
+}
+.nav li.action{
+	background: #ccc;
+}
+.card-box{
+	border: 1px solid #ccc;
+
+}
+
+.card-box .show ul{
+ margin-left:-10px;
+}
+
+img{
+	width: 100px;
+	height: 100px;
+	margin-left: 50px;
+	margin-top: 75px;
+}
+
+
+.card-box ul .card{
+	position: relative;
+	margin-left: 10px;
+  margin-top: 10px;
+	float: left;
+	width: 200px;
+	height: 250px;
+	border: 1px solid #ccc;
+
+}
+
+.card-box ul .card:nth-child(1){
+	margin-top: 0;
+}
+.card-box ul .card:nth-child(2){
+	margin-top: 0;
+}
+.card-box ul .card:nth-child(3){
+	margin-top: 0;
+}
+
+.card-box .text{
+
+	padding: 10px;
+}
+
+.card-box .price{
+
+	padding: 10px;
+	color: red;
+}
+
+.card-box .cover{
+	position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+	background: rgba(0,0,0,0.3);
+	transition: all 0.3s;
+
+
+}
+
+.card-box .hover{
+	opacity: 0;
+}
+
+.card-box .btn{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	color: #c81623;
+	padding: 10px 15px;
+	border: 1px solid #c81623;
+	text-align: center;
+	cursor: pointer;
+	background: #fff;
+}
+
+.card-box .show{
+	display: none;
+}
+
+.card-box .action{
+	display: block;
+}
+
+
+
+
+
