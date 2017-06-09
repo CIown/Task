@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-	<link rel="stylesheet" href="题目10.css">
+	<link rel="stylesheet" href="题目9.css">
 </head>
 <body>
 	<div class="layout">
@@ -137,8 +137,6 @@
 			</ul>
 
 		</div>
-
-		   <div class="button"><p>添加</p></div>
 </div>
 
 	</div>
@@ -163,46 +161,6 @@ console.log('---')
 $hover.on('mouseleave',function(e){
 	$(this).addClass("hover")
 })
-
-var products = [
-	{
-		img: 'http://img10.360buyimg.com/N3/jfs/t2242/92/1446546284/374195/9196ac66/56af0958N1a723458.jpg',
-		name: '珂兰 黄金手 猴哥款',
-		price: '￥405.00'
-	},{
-		img: 'http://img10.360buyimg.com/N3/jfs/t2242/92/1446546284/374195/9196ac66/56af0958N1a723458.jpg',
-		name: '珂兰 黄金转运珠 猴哥款',
-		price: '￥100.00'
-	},{
-		img: 'http://img10.360buyimg.com/N3/jfs/t2242/92/1446546284/374195/9196ac66/56af0958N1a723458.jpg',
-		name: '珂兰 黄金手链 3D猴哥款',
-		price: '￥45.00'
-	}
-]
-
-function getProdHtml(prod){
-	var html = '';
-	html+="<li class='card'>"
-	html+="<div class='cover hover'><a class='btn'>立即抢购</a></div>"
-	html+='<img src="'+prod.img+'" alt="" />'
-	html+="<div class='text'>"+prod.name+"</div>"
-	html+="<div class='price'>"+prod.price+"</div>"
-	html+='</li>'
-	return html;
-}
-
-$(".box .button p").on("click",function(e){
-	console.log('-------');
-
-	e.preventDefault();
-  $.each(products, function(idx,products){
-  var html = getProdHtml(products)
-  $(".card-box .show ul").append(html)
-
- })
-
-})
-
 </script>
 
 </body>

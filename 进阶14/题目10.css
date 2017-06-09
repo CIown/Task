@@ -50,7 +50,7 @@ a{
 }
 .card-box{
 	border: 1px solid #ccc;
-  border-bottom: 0;
+
 }
 
 .card-box .show ul{
@@ -134,14 +134,7 @@ img{
 	display: block;
 }
 
-.button p{
-	margin-top: 10px;
-  padding: 10px 25px;
-	display: inline-block;
-	background: #ccc;
-	border: 1px solid #ccc;
-	cursor: pointer;
-}
+
 
 
 
