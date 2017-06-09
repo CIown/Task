@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+  <style>
+*{
+  margin: 0;
+  padding: 0;
+}
+  body{
+    width: 100%;
+
+  }
+  .btn{
+     width: 100px;
+     margin: 0 auto ;
+     background: yellow;
+  }
+#button{
+  width: 100px ;
+  height: 30px ;
+  border: 1px solid ;
+  background: green;
+  font-color: yellow;
+
+}
+
+li{
+  list-style:none;
+  border: 1px solid red;
+  margin: 10px;
+  padding: 20px;
+}
+li:hover{
+  background: yellow;
+}
+
+
+  </style>
+</head>
+<body>
+<ul class = "list">
+<li>内容1</li>
+<li>内容2</li>
+</ul>
+	<div class="btn">
+<button id = "button">加载更多</button>
+	</div>
+
+	<script>
+ 
+ var n = 2;
+ button.onclick = function(){
+ var req = new XMLHttpRequest()
+
+  req.open('GET','/xxx')
+
+  req.onload = function(){
+      for(var i = 0; i < 5;i++){
+      n +=1;
+      var ul = document.querySelector('ul')
+      var li = document.createElement("li")
+      li.innerText = "内容"+ n;
+      ul.appendChild(li)
+    }
+  }
+
+  req.send()
+
+}
+
+
+
+	</script>
+</body>
+
+
+</html>
