@@ -1,0 +1,30 @@
+
+.layout{
+	margin: 10px;
+
+}
+
+ul{
+	padding: 0;
+}
+
+ul li{
+	list-style: none;
+	padding: 10px;
+	border: 1px solid;
+	margin-bottom: 10px;
+}
+
+.btn{
+	border: 1px solid #ccc;
+
+	display: inline-block;
+}
+
+.btn a{
+	padding: 10px;
+	text-decoration: none;
+	color: black;
+	
+	display: inline-block;
+}

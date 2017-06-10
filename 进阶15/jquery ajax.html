@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="css.css">
+</head>
+<body>
+	<div class="layout">
+		<ul class="ct">
+			<li>内容一</li>
+			<li>内容二</li>
+
+		</ul> 
+		<div class="btn">
+			<a href="#">加载更多</a>
+		</div>
+	</div>
+
+<script src="https://cdn.moefont.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+var count = 0;
+
+$('.btn').on('click',function(e){
+	$.get('/getNews',{count:count}).done(function(ret){
+		count++;
+		appendHtml(ret);
+		console.log(count)
+	}).fail(function(){
+  alert("系统错误")
+	})
+})
+
+
+function appendHtml(news){
+  if(news.length===0){
+  	$('.btn').remove()
+  	$(".ct").append("<div class='btn'>没有数据了</div>")
+  	return;
+  }else{
+	var html = '';
+	$.each(news,function(){
+			html = "<li>" + this.content +"</li>"
+			$("ul").append(html);
+
+	})
+
+	}
+}
+
+</script>
+</body>
+</html>
