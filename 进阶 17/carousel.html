@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="carousel.css">
+</head>
+<body>
+	<div class="carousel">
+		<ul class="img-ct">
+			<li class = 0><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497365491866&di=d5ef0fe14b804902c2f66f76022c3331&imgtype=0&src=http%3A%2F%2Fattach.bbs.miui.com%2Fforum%2F201705%2F24%2F174449lghk0zhhkggessmg.jpg" alt=""></li>
+			<li class = 1><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497365491865&di=6f78545351aa9228f60c5014874efc30&imgtype=0&src=http%3A%2F%2Fwallpapers1.hellowallpaper.com%2Fart_black-wallpaper--01_01-1440x900.jpg" alt=""></li>
+			<li class = 2><img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2675857237,1396345980&fm=11&gp=0.jpg" alt=""></li>
+			<li class = 3><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497365491863&di=5286edaf785eb745f341fbef8add0676&imgtype=0&src=http%3A%2F%2Fwww.molizm.com%2FUPLOAD%2FTheme%2Fwallpapers_0421%2Fwater_apple-1280x800.jpg" alt=""></li>
+		</ul>
+		<span class="pre"><</span>
+		<span class="next">></span>
+		<div class="bullet">
+			<ul>
+				<li class = active></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+	</div>
+
+	<script src="https://cdn.moefont.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+	<script>
+
+
+
+	$imgs = $(".carousel .img-ct>li")
+	$imgCt = $(".carousel .img-ct")
+	$nextBtn = $(".carousel  .next")
+	$preBtn = $(".carousel  .pre")
+	$bullet = $(".bullet ul>li")
+
+
+	var imgWidth = $imgs.width()
+	var imgCount = $imgs.length
+	var pageIndex = 0
+	var isAnimate = false
+
+	$imgCt.append($imgs.eq(0).clone())
+	$imgCt.prepend($imgs.eq(3).clone())
+  $imgCt.width((imgCount+2)*imgWidth)
+  $imgCt.css("left",-imgWidth)
+
+
+	setInterval(function(){
+		playNext(1)
+	},2000)
+
+  $nextBtn.on("click",function(){
+  	playNext(1)
+  })
+
+  $preBtn.on("click",function(){
+
+  	playPre(1)
+  })
+
+  $bullet.on("click",function(){
+	var index = $(this).index()
+
+	if(index >= pageIndex)
+	{
+		playNext(index - pageIndex)
+		pageIndex = index
+	}
+ 
+
+  setBullet()
+
+	})
+
+
+  
+
+
+	function playNext(len){
+		if(isAnimate) return;
+		isAnimate = true
+		$imgCt.animate({
+			left: "-=" + len*imgWidth
+	},function(){
+			pageIndex++
+			if(pageIndex === imgCount){
+				$imgCt.css("left",-imgWidth)
+				pageIndex = 0
+			}
+			setBullet()
+			isAnimate = false
+		})	
+	}
+
+	function playPre(len){
+		if(isAnimate) return;
+		isAnimate = true
+		$imgCt.animate({
+			left: "+=" + len*imgWidth
+		},function(){
+			pageIndex--
+			if(pageIndex < 0){
+				$imgCt.css("left",-imgCount*imgWidth)
+				pageIndex = imgCount-1
+			}
+			setBullet()
+			isAnimate = false
+		})
+		
+	}
+
+ function setBullet(){
+ 	$bullet.removeClass("active").eq(pageIndex).addClass("active")
+ }
+
+  
+	</script>
+</body>
+</html>
