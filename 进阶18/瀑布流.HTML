@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="瀑布流.css">
+</head>
+<body>
+	<div class="layout">
+		<div class="item h1">
+	   1
+		</div>
+		<div class="item h2 ">
+ 			2
+		</div>
+		<div class="item h3 ">
+			3
+		</div>
+		<div class="item h1 ">
+			4
+		</div>
+		<div class="item h2 ">
+			5
+		</div>
+		<div class="item h3 ">
+			6
+		</div>
+		<div class="item h1">
+			7
+		</div>
+		<div class="item h2 ">
+			8
+		</div>
+		<div class="item h3">
+			9
+		</div>
+		<div class="item h1">
+			10
+		</div>
+		<div class="item h1">
+	   1
+		</div>
+		<div class="item h2 ">
+ 			2
+		</div>
+		<div class="item h3 ">
+			3
+		</div>
+		<div class="item h1 ">
+			4
+		</div>
+		<div class="item h2 ">
+			5
+		</div>
+		<div class="item h3 ">
+			6
+		</div>
+		<div class="item h1">
+			7
+		</div>
+		<div class="item h2 ">
+			8
+		</div>
+		<div class="item h3">
+			9
+		</div>
+		<div class="item h1">
+			10
+		</div>
+		<div class="item h1">
+	   1
+		</div>
+		<div class="item h2 ">
+ 			2
+		</div>
+		<div class="item h3 ">
+			3
+		</div>
+		<div class="item h1 ">
+			4
+		</div>
+		<div class="item h2 ">
+			5
+		</div>
+		<div class="item h3 ">
+			6
+		</div>
+		<div class="item h1">
+			7
+		</div>
+		<div class="item h2 ">
+			8
+		</div>
+		<div class="item h3">
+			9
+		</div>
+		<div class="item h1">
+			10
+		</div>
+		<div class="item h1">
+	   1
+		</div>
+		<div class="item h2 ">
+ 			2
+		</div>
+		<div class="item h3 ">
+			3
+		</div>
+		<div class="item h1 ">
+			4
+		</div>
+		<div class="item h2 ">
+			5
+		</div>
+		<div class="item h3 ">
+			6
+		</div>
+		<div class="item h1">
+			7
+		</div>
+		<div class="item h2 ">
+			8
+		</div>
+		<div class="item h3">
+			9
+		</div>
+		<div class="item h1">
+			10
+		</div>		
+	</div>
+
+	<script src="https://cdn.moefont.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+	<script>
+	
+var waterFall = (function(){
+
+ 	 function init(){
+ 	 waterfull()
+
+ 	$(window).resize(function(){
+		waterfull()
+	})
+}
+
+function waterfull(){
+
+  		var array = []
+  		var length = parseInt($(".layout").width()/$(".item").width()) 
+
+ 		 	for(var i = 0; i < length;i++){
+  				array[i] = 0;
+  		}
+  	  
+  		$(".item").each(function(){
+  		
+  	  var minValue = Math.min.apply(null ,array)
+  	  var minIndex = array.indexOf(minValue)
+
+  	  $(this).css({
+  	  	top: array[minIndex],
+  	  	left: $(this).outerWidth(true) * minIndex 
+  	  })
+  	  array[minIndex] += $(this).outerHeight(true)
+  	})
+  }
+  	return {
+  		init: init
+  	}
+ 	 
+ })()
+
+  waterFall.init()
+  
+	
+
+
+	</script>
+</body>
+</html>
