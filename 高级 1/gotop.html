@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	html,body{
+		margin: 0;
+	}
+		.layout{
+			height: 1000px;
+			position: relative;
+
+		}
+		.ct{
+			display: inline-block;
+			padding: 10px;
+			border: 1px solid red;
+			color: black;
+			position: fixed;
+		  right: 0;
+		  bottom: 2px;
+		  cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="layout">
+
+	</div>
+
+	<script>
+		function goTop(){
+			this.ct = document.querySelector(".layout")
+			this.target
+		}
+
+		goTop.prototype.init = function(){
+			this.createNode()
+			this.bindEvent()
+
+		}
+
+		goTop.prototype.createNode = function(){
+			this.targer = document.createElement("div")
+			this.targer.innerText = "goTop"
+			this.targer.setAttribute("class","ct")
+			this.ct.appendChild(this.targer)
+		}
+
+		goTop.prototype.bindEvent = function(){
+			var btnTop = document.querySelector(".ct")
+			btnTop.addEventListener("click",function(){
+				scrollTo(0,0)
+			})
+		}
+
+var goTopBtn = new goTop()
+goTopBtn.init()
+
+	</script>
+</body>
+</html>
