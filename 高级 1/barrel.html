@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}		
+
+		.img-preview{
+			width: 1000px;
+			margin: 0 auto;
+		}
+
+		.img-row{
+			margin-bottom: 8px;
+		}
+
+		.img-box{
+			float: left;
+		}
+
+		.img-row:after{
+			content:'';
+			display: block;
+			clear: both;
+		}
+
+
+	</style>
+</head>
+<body>
+	<div class="img-preview">
+
+	</div>
+
+
+
+	<script>
+
+
+
+	function barrel($ct){
+		this.$ct = $ct;
+		this.loadImg();
+		this.rowList = [];
+	}
+
+	barrel.prototype = {
+		
+    loadImg: function(){
+      var _this = this;
+      var imgs = this.getImgUrls(100);
+       $.each(imgs,function(idx, url){
+        var img = new Image();
+        img.src = url;
+
+        console.log(img)
+     
+
+        img.onload = function(){
+          console.log('width:'+img.width)
+          var imgInfo = {
+            target: img,
+            width: 100 * (img.width/img.height),
+            height: 100
+          };
+          _this.render(imgInfo);
+        }
+      })
+
+    },
+
+    render: function(imgInfo){
+    	var _this = this;
+      var clientWidth = this.$ct.width();
+      var rowWidth = 0;
+      var newRowHeight = 0;
+      var lastImgInfo = imgInfo;
+      var rowList = this.rowList
+
+      this.rowList.push(imgInfo);
+
+       $.each(rowList,function(idx, imgInfo){
+          rowWidth += imgInfo.width;
+          if(rowWidth > clientWidth){
+       		 	rowList.pop();
+
+       		 	rowWidth = rowWidth - lastImgInfo.width;
+       			newRowHeight = clientWidth * 100/rowWidth;
+   		     //   rowWidth/200   ==  clientWidth/ x
+
+	        _this.layout(newRowHeight);
+	        _this.rowList = [];
+	        _this.rowList.push(imgInfo);
+      }
+        })
+      
+
+
+    },
+
+
+		 layout: function(newRowHeight){
+      var $rowCt = $('<div class="img-row"></div>');
+      $.each(this.rowList, function(idx, imgInfo){
+        var $imgCt = $('<div class="img-box"></div>'),
+            $img = $(imgInfo.target);
+            $img.height(newRowHeight);
+            $imgCt.append($img);
+            $rowCt.append($imgCt);
+      });
+      console.log(this.$ct)
+      this.$ct.append($rowCt);
+    },
+
+
+    getImgUrls: function(num) {
+      var color, width, height, urls = [];
+      for (var i = 0; i < num; i++) {
+        color = Math.random().toString(16).substring(2, 8);
+        width = Math.floor(Math.random() * 100 + 50);
+        height = Math.floor(Math.random() * 30 + 50);
+        urls.push("http://placehold.it/" + width + "x" + height + "/" + color + "/fff");
+      }
+      return urls;
+    }
+  }
+
+  new barrel($('.img-preview'))
+	</script>
+</body>
+</html>
