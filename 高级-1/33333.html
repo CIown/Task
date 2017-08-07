@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div class="ct"></div>
+
+	<script>
+
+			function inherit(Person,Male){
+
+			var _prototype = Object.create(Person.prototype)
+			_prototype.constructor = Male
+			Male.prototype = _prototype
+
+			}
+
+			var _prototype = Object.create(Person.prototype)
+			_prototype.constructor = Male
+			Male.prototype = _prototype
+
+
+		  function Person(name, sex){
+        this.name = name;
+        this.sex = sex;
+      }
+
+      Person.prototype.getName = function(){
+       console.log("this.name")
+      };    
+
+      inherit(Person,Male)
+      
+      function Male(name, sex, age){
+        this.age = age;
+        Person.call(this,name, sex)
+      }
+
+      Male.prototype.printName = function(){
+          console.log(this.name)
+      }
+      Male.prototype.getAge = function(){
+          console.log(this.age)
+      };
+       
+
+
+      var ruoyu = new Male('若愚', '男', 27);
+      ruoyu.printName();
+
+
+
+
+	</script>
+
+</body>
+</html>

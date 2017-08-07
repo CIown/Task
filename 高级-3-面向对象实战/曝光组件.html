@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	ul li{
+		list-style: none;
+
+	}
+
+	li{
+		float:left;
+		margin-left: 10px;
+	}
+	
+	.ct .clearfix:after{
+		content: "";
+		clear: both;
+		display: block;
+	}
+
+	img{
+		width: 300px;
+		height: 300px;
+
+	}
+
+	.box{
+		margin: 0 auto;
+		width: 630px;
+	}
+
+	p{
+		float: left;
+	}
+
+	</style>
+
+</head>
+<body>
+	<div class="ct">
+		<ul class="box clearfix">
+			<li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/1.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/1.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/2.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/3.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/4.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/5.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/6.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/7.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/8.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/9.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/10.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/11.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/12.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/13.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/14.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/15.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/16.jpg" /></li>
+		  <li><img src=" " data-src="http://cdn.jirengu.com/book.jirengu.com/img/17.jpg" /></li>
+			<p id="hello">hello</p>
+		</ul>
+
+
+	</div>
+
+<script src="https://cdn.moefont.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+
+
+
+
+	function LazyRender($target,callback){
+		this.$target = $target
+		this.callback = callback
+		this.bind()
+		this.isShow()
+	}
+
+	LazyRender.prototype.bind = function(){
+		var _this = this,
+				click;
+
+				if(click){
+					clearTimeout("click")
+				}else{
+					click = setTimeout(function(){
+						$(window).on("scroll",function(){
+							 _this.isShow()
+						})
+					},300)
+				}
+	}
+
+	LazyRender.prototype.checkWindow = function(){
+		var windowHeight = $(window).height(),
+		scrollTop = $(window).scrollTop(),
+		offset = this.$target.offset().top, 
+		nodeHeight = this.$target.height();
+		if(offset < windowHeight + scrollTop && offset > scrollTop - nodeHeight){
+			console.log("true")
+			return true
+		}else{
+			console.log("false")
+
+			return false
+		}
+	}
+
+LazyRender.prototype.isShow = function(){
+		if( this.checkWindow(this.$target)){
+				this.callback(this.$target)
+		}
+	}
+
+	var Lazy = (function(){
+		return {
+			init: function($targets,callback){
+				$targets.each(function(idx,target){
+					new LazyRender($(target),callback)
+				})
+			}
+
+		}
+	})()
+
+	Lazy.init($("#hello"),function(){
+		$("#hello").text($("#hello").text() + 123)
+	})
+
+	Lazy.init($("img"),function($node){
+		showImg($node)
+	})
+
+	function showImg($img){
+		var imgUrl = $img.attr('data-src');
+		$img.attr('src', imgUrl);
+}
+
+</script>
+</body>
+</html>
