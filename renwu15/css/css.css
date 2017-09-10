@@ -108,7 +108,8 @@ table{
 	font-size: 25px;
 	float: left;
 	color: #fed136;
-	margin: 20px 0px 20px 390px;
+	margin: 20px 0px 20px 193px;
+	display: inline-block;
 }
 
 #header .menu{

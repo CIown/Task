@@ -56,6 +56,23 @@ li:hover{
 
   req.open('GET','/xxx')
 
+  req.onreadystatechange = function(){
+        if(req.readyState === 0){
+      console.log(0)
+    }
+        if(req.readyState === 1){
+      console.log(1)
+    }
+        if(req.readyState === 2){
+      console.log(2)
+    }
+        if(req.readyState === 3){
+      console.log(3)
+    }
+    if(req.readyState === 4){
+      console.log(4)
+    }
+  }
   req.onload = function(){
       for(var i = 0; i < 5;i++){
       n +=1;

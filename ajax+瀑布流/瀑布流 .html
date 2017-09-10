@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	 ul,li{
+      margin: 0;
+      padding: 0
+    }
+
+
+img{
+		width: 200px;
+
+}
+    .ct{
+       position: relative;
+    }
+
+    .ct li{
+      position: absolute;
+      list-style:none;
+      padding: 10px;
+      margin-top: 10px;
+      cursor:pointer;
+
+    }
+    #load-more{
+      display: block;
+      margin: 10px auto;
+      text-align: center;
+      cursor: pointer;
+    }
+    #load-more img{
+      width: 40px;
+      height: 40px;
+    }
+    .btn{
+      display: inline-block;
+      height: 40px;
+      line-height: 40px;
+      width: 80px;
+      border: 1px solid #E27272;
+      border-radius: 3px;
+      text-align: center;
+      text-decoration: none;
+      color: #E27272;
+    }
+    .btn:hover{
+      background: green;
+      color: #fff;
+    }
+
+    .clearfix:after{
+			content: '';
+			clear: both;
+			display: block;
+    }
+
+	</style>
+</head>
+<body>
+<div id="img-show" class='layout'>
+
+		<ul class="ct clearfix">
+
+		</ul>
+	</div>
+
+	<a id="load-more" class="btn" href="#">
+      加载更多
+    </a>
+
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+	<script>
+	/*
+	var arr = []
+	var length = parseInt($('.layout').width()/$(".item").width())
+
+	for(var i = 0; i < length; i++){
+		arr[i] = 0;
+	}
+
+	$(".item").each(function(){
+		var minValue = Math.min.apply(null,arr)
+		var minIndex = arr.indexOf(minValue)
+
+		$(this).css({
+			top: arr[minIndex],
+			left: $(this).outerWidth(true) * minIndex
+		})
+
+		 arr[minIndex] += $(this).outerHeight(true)
+
+	})
+
+	*/
+	
+	function waterFull(){
+		_this = this
+		this.init()
+		$(window).resize(function(){
+			_this.init()
+		})
+
+
+	}
+
+	waterFull.prototype = {
+
+		init: function(){
+
+			this.item = $("li")
+			this.arr = []
+			this.length = parseInt($('#img-show ul').width()/$("li").width())
+      
+
+			for(var i = 0; i < this.length; i++){
+				this.arr[i] = 0;
+			}
+
+			this.bind()
+		},
+
+		bind: function(){
+			_this = this
+			this.item.each(function(){
+				__this = this
+				 this.minValue = Math.min.apply(null,_this.arr)
+				 this.minIndex = _this.arr.indexOf(this.minValue)
+
+				$(this).css({
+					top: _this.arr[__this.minIndex],
+					left: $(this).outerWidth(true) * __this.minIndex
+				})
+
+				 _this.arr[this.minIndex] += $(this).outerHeight(true)
+
+	})
+          
+		}
+
+  
+	}
+
+	function ajax(){
+    this.init()
+  }
+
+  ajax.prototype = {
+
+    init: function(){
+      this.$btn = $('#load-more')
+      this.$ct = $('#img-show .ct')
+      this.bind()
+      this.pageIndex = 0
+    },
+
+    bind: function(){
+      
+      _this = this
+      this.$btn.on('click', function(e){
+      console.log("-------------")
+        __this = this
+        e.preventDefault();
+        
+        $("#img-show").css({
+          height: "+=" + 1000
+        })
+
+        this.xhr = new XMLHttpRequest()
+        this.xhr.onreadystatechange = function(){
+          if(__this.xhr.readyState === 4){
+              if(__this.xhr.status === 200 || __this.xhr.status ===304){
+                  console.log(__this.xhr.responseText)
+                  this.results = JSON.parse(__this.xhr.responseText)
+                  this.results.forEach(function(result){
+                    console.log(result)
+                    this.$node = $("<li></li>")
+                    this.$img = new Image()
+                    this.$img.src = result
+                    this.$node.append(this.$img)
+
+                    $('#img-show .ct').append(this.$node)
+                  })
+
+                  _this.pageIndex = _this.pageIndex + 5   
+                  new waterFull()                          
+              }
+                  
+            } 
+            
+          }
+      
+        this.xhr.open('get','/loadMore?index='+_this.pageIndex+'&length=5',true)
+        this.xhr.send()
+       })     
+    }
+  }
+
+  
+new ajax()
+
+
+
+
+
+
+	</script>
+</body>
+</html>

@@ -14,7 +14,9 @@ var server = http.createServer(function(request, response){
 
 
   if(path ==='/'){
+    response.end('1234')
     var string = fs.readFileSync('./index.html')
+    console.log(string)
     response.setHeader('Content-Type','text/html; charset="utf-8"')
     response.end(string)
   }else if(path ==='/page.html'){
@@ -23,7 +25,8 @@ var server = http.createServer(function(request, response){
     response.end(string)
   }else if(path ==='/xxx'){
      response.setHeader('Content-Type','text/html; charset ="utf-8"')
-    response.end('')
+    response.end('1234')
+
   }
 
   
