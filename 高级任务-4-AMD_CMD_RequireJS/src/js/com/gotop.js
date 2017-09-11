@@ -23,6 +23,8 @@ define(['jquery'],function($){
 		bind: function(){
 			var _this = this;
 
+			_this.$el.hide()
+
 			this.$el.on('click',function(){
 				_this.goToTop()
 			})
