@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>音乐播放器</title>
+	<link rel="stylesheet" href="./src/css/css.css">
+	<link rel="stylesheet" href="./src/css/font-awesome-4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+	<div class="musicbox">
+
+		<div class="nav clearfix">
+			<div class="back middle"><i class="fa fa-chevron-left"></i></div>
+			<div class="channel">
+				<ul class="channel-ct middle">
+				</ul>
+			</div>
+			<div class="forward middle"><i class="fa fa-chevron-right"></i></div>
+		</div>
+
+		<div class="music">
+			<div class="background">
+				<img src="./src/img/loading_cn_02.jpg" alt="">
+			</div>
+
+			<div class="control-progress clearfix">
+				<div class="control .float ">
+					<div class="back middle"><i class="fa fa-step-backward"></i></div>
+					<div class="play middle"><i class="fa fa-play"></i></div>
+					<div class="forward middle"><i class="fa fa-step-forward"></i></div>
+				</div>
+
+				<div class="progress middle">
+					<div class="bar">
+						<div class="progress-now"></div>
+					</div>
+					<div class="time">00:00</div>
+				</div>
+
+				<div class="volume middle">
+					<div class="icon middle">
+						<i class="fa fa-volume-up"></i>
+					</div>
+
+					<div class="volume-progress middle">
+						<div class="bar">
+							<div class="volume-now"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="icons">
+				<div class="download middle"><i class="fa fa-download"></i></div>
+				<div class="lyrice middle"><i class="fa fa-file-text"></i></div>
+				<div class="comment middle"><i class="fa fa-comment"></i></div>
+				<div class="love middle"><i class="fa fa-heart"></i></div>
+			</div>
+			
+			<div class="content">
+				<div class="title"></div>
+				<div class="auther"></div>
+				<div class="lrc"></div>
+			</div>
+
+		</div>
+	</div>
+	<script src='src/js/lib/require.js'></script>
+	<script>
+		require.config({
+			baseUrl: 'src/js', //基准路径
+			paths: {
+				'jquery': 'lib/jquery-3.2.1'
+			}
+		})
+
+		requirejs(['app/index'])//加载模块入口
+
+	</script>
+</body>
+</html>
