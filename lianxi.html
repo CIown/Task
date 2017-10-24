@@ -237,7 +237,7 @@ ul,li{
 	background-color: white;
 }
 	</style>
-	<link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">  
+	<link href="https://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">  
 </head>
 <body>
 	<div class="musicbox">
@@ -253,7 +253,7 @@ ul,li{
 
 		<div class="music">
 			<div class="background">
-				<img src="./src/img/loading_cn_02.jpg" alt="">
+				<img src="https://img6.bdstatic.com/img/image/public/bizhi112.png" alt="">
 			</div>
 
 			<div class="control-progress clearfix">
@@ -299,11 +299,9 @@ ul,li{
 		</div>
 	</div>
 	<script>
-		define(function(){
-
+	
  function getChannel(){
  	this.init()
- 	this.bindNav()
  }
 
  getChannel.prototype.init = function(){
@@ -346,37 +344,6 @@ ul,li{
 
  }
 
- getChannel.prototype.bindNav = function(){
- 		var _this = this
-	 	this.channelCt.onclick = function(e){
-	 		if(e.target.tagName.toLowerCase() != 'li'){
-	 			return ;
-	 		}else{
-	 			var channelId = e.target.getAttribute('data-channel-id')
-	 			_this.get('http://api.jirengu.com/fm/getSong.php',{channel:channelId},function(ret){
-	 				_this.renderSong(ret.song[0])
-	 				_this.play(ret.song[0].url)
-	 			})
-	 		}
-	 	}
-
-	 	this.navBackBtn.onclick = function(){
-	 		if(parseInt(getComputedStyle(this.channelCt).left === 0)){
-	 			return ;
-	 		}else{
-	 			this.channelCt.style.left +=20
-	 		}
-	 	}
-
-	 	this.navForwardBtn.onclick = function(){
-	 		if(parseInt(getComputedStyle(this.channelCt).left === -(this.length-420) ) ){
-	 			return ;
-	 		}else{
-	 			this.channelCt.style.left = '-'+20+'px'
-	 		}
-	 	}
-
- }
 
  getChannel.prototype.get = function(url,data,callback,dataType){
  		url += '?' + Object.keys(data).map(function(key){
@@ -392,8 +359,6 @@ ul,li{
  }
 
  getChannel.prototype.renderChannel = function(channels){
- 	console.log(channels)
-
  		var html = channels.map(function(channel){
  			return '<li data-channel-id="'+channel.channel_id+'">'+ channel.name +'</li>'
  		}).join('')
@@ -402,23 +367,8 @@ ul,li{
  		 this.channelCt.innerHTML = html
  }
 
- getChannel.prototype.renderSong = function(song){
- 		console.log('1342456')
- 		console.log(song.title)
- 		this.title.innerText = song.title
- 		this.auther.innerText = song.artist
- 		this.lrc = song.lrc
- }
 
- getChannel.prototype.play = function(url){
- 		this.music.src = url
- 		this.music.play()
- }
-
-
-
-new getChannel()
-
+ 		var channel = new getChannel()
 
 	</script>
 </body>
