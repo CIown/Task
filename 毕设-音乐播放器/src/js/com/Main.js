@@ -1,12 +1,12 @@
 define(function(){
 
- function getChannel(){
+ function main(){
  	this.init()
  	this.bindNav()
  	this.bindControl()
  }
 
- getChannel.prototype.init = function(){
+ main.prototype.init = function(){
  		var _this = this
  		this.background = document.querySelector('#background'),
  		this.channelCt = document.querySelector('.nav .channel .channel-ct'),
@@ -36,9 +36,10 @@ define(function(){
 
  		//获取channelCt列表
  		this.get('https://jirenguapi.applinzi.com/fm/getChannels.php',{},function(ret){ //获取channel
- 			console.log(ret)
- 			console.log(ret.channels)
+ 			console.log('ret')
+ 			console.log("-------------")
  			_this.renderChannel(ret.channels) //ret.channels是数组
+ 			console.log('=============')
  		})
 
 	 	_this.get('https://jirenguapi.applinzi.com/fm/getSong.php?channel=public_tuijian_spring',{channel:_this.channelId},function(ret){
@@ -53,7 +54,7 @@ define(function(){
  		//console.log(this.songLrc)
  }
 
- getChannel.prototype.bindNav = function(){
+ main.prototype.bindNav = function(){
  		var _this = this
  		this.temporaryIndex = null
  		//获取channelCt列表并且获取被点击li在当前列表的序列
@@ -115,7 +116,7 @@ define(function(){
 	 	}) 
  }
 
- getChannel.prototype.bindControl = function(){
+ main.prototype.bindControl = function(){
  		var _this = this
  		this.controlPlayBtn.addEventListener('click',function(){
  			_this.controlPlay()
@@ -133,7 +134,9 @@ define(function(){
 
 
 
- getChannel.prototype.get = function(url,data,callback,dataType){
+
+
+ main.prototype.get = function(url,data,callback,dataType){
  		//若channelCtLength = true 则
  		var _this = this
  		url += '?' + Object.keys(data).map(function(key){
@@ -156,7 +159,7 @@ define(function(){
  		xhr.send()
  }
 
- getChannel.prototype.renderChannel = function(channels){
+ main.prototype.renderChannel = function(channels){
  		var _this = this
 
  		var html = channels.map(function(channel){
@@ -178,7 +181,7 @@ define(function(){
 	 	console.log(this.ulList)
  }
 
- getChannel.prototype.renderSong = function(song){
+ main.prototype.renderSong = function(song){
  		var _this = this
  		this.title.innerText = song.title
  		this.auther.innerText = song.artist
@@ -196,7 +199,73 @@ define(function(){
  		
  }
 
- getChannel.prototype.play = function(url){
+  //获取图片 是图片旋转 将背景设为封面
+ main.prototype.img = function(url){
+ 	 	var _this = this
+ 		this.picture = document.querySelector('.music .background img')
+ 		this.circle = document.querySelector('.music .background .circle')
+ 	 	this.picture.src = url
+ 	 	this.background.style.backgroundImage = 'url(' + url +')'
+ 	 	this.circle.style.animation = 'null'
+ 	 	console.log(getComputedStyle(this.circle).animation)
+ 	 	this.circle.style.animation = '60s rotate infinite linear'
+ }
+	//同步歌词
+ main.prototype.renderLrc = function(){
+ 		//数组元素越界所以var i = 0;i<this.lrcNodesArray.length;
+ 		for(var i = 0;i<this.lrcNodes.length;i++){
+ 				if(this.lrcNodes[i].getAttribute('data-time') <= this.music.currentTime && this.lrcNodes[i+1].getAttribute('data-time') >this.music.currentTime ){
+				 		if(i >= 1){
+				 				this.lrcNodes[i-1].classList.remove('highLight')
+				 				this.lrc.style.top = this.lrcArray[i].moveTop + 'px'
+				 				this.lrcNodes[i].classList.add('highLight')
+				 				break
+				 		}else{
+				 			//this.lrc.style.top = -this.lrcNodesArray[i-1].moveTop + 'px'
+				 			this.lrcNodes[i].classList.add('highLight')
+				 		break;
+				 		}
+	 			}
+ 		}
+ }
+
+// 将歌词插入dom中
+ main.prototype.setLrc = function(){
+ 	 		var _this = this,
+ 	 				height = 120,
+ 					reg = /\[(\d{2}):(\d{2})\.(\d{2})\]([^\[]*)/g,
+ 					html = '';
+
+ 			this.lrcArray = []
+
+ 			console.log('this.songLrc')
+ 			console.log(this.songLrc)
+ 			this.songLrc.replace(reg,function(match,p1,p2,p3,p4){
+ 					var minutes = parseInt(p1)*60,
+ 							seconds = parseInt(p2) + parseInt(p3)/100,
+ 							currentTime = minutes+seconds
+ 					return _this.lrcArray.push({
+ 							'time':currentTime,
+ 							'lrc': p4
+ 						})
+ 			})
+ 			this.lrcArray.forEach(function(obj){
+ 				return html+= '<li data-time="' + obj.time +'">' + obj.lrc +'</li>'
+ 			})
+ 			_this.lrc.innerHTML = html
+ 			this.lrcNodes = document.querySelectorAll('.content .lrc ul li')
+ 			this.lrcNodesArray = [].slice.call(this.lrcNodes)
+
+ 			for(var i = 0; i<this.lrcNodes.length;i++){
+ 				height -= this.lrcNodes[i].offsetHeight
+ 				this.lrcArray[i].moveTop = height
+ 			}
+ 			console.log(this.lrcNodesArray)
+ 			console.log(this.lrcArray)
+ }
+
+
+ main.prototype.play = function(url){
  		this.music.src = url
  		this.music.play()
  		if(this.controlPlayBtn.classList.contains('fa-play')){
@@ -205,7 +274,8 @@ define(function(){
  		}
  }
 
- getChannel.prototype.controlPlay = function(){
+
+ main.prototype.controlPlay = function(){
  		if(!this.music.src){
  			return;
  		}else{
@@ -223,7 +293,7 @@ define(function(){
  }
 
 
- getChannel.prototype.controlBack = function(){
+ main.prototype.controlBack = function(){
  		var _this = this
  		clearInterval(_this.timer)
  		if(!this.index){
@@ -237,23 +307,27 @@ define(function(){
 		 		_this.play(ret.song[0].url)
 		})
  }
-
- getChannel.prototype.controlForward = function(){
+ //下一首
+ main.prototype.controlForward = function(){
  		var _this = this
  		clearInterval(_this.timer)
  		if(!this.index){
  			 this.index = 0;
  		}
  		var channelId = this.channelCt.children[this.index].getAttribute('data-channel-id')
-		this.get('http://api.jirengu.com/fm/getSong.php',{channel:channelId},function(ret){
+		this.get('https://jirenguapi.applinzi.com/fm/getSong.php',{channel:channelId},function(ret){
 			 	_this.renderSong(ret.song[0])
 			 	//获取原始歌词
 			 	//_this.getOriginLrc()
 			 	_this.play(ret.song[0].url)
+			 	if(!ret.song[0].url){
+			 		_this.controlForward()
+			 	}
 		})
  }
 
- getChannel.prototype.musicSet = function(){
+ //音量 进度条 自动下一首 定时器 同步歌词
+ main.prototype.musicSet = function(){
  		var _this = this
  		//音乐结束时自动播放下一首
 	  this.music.addEventListener('ended',function(){
@@ -274,6 +348,7 @@ define(function(){
  				_this.renderLrc(_this.lrcNodesArray)
  			},1000)
  		})
+
  		//音乐停止时 清除计时器
  		this.music.addEventListener('pause',function(){
  				clearInterval(_this.timer)
@@ -318,8 +393,8 @@ define(function(){
  		})
  }
 
-//进度条和显示时间
- getChannel.prototype.updateProgress = function(){
+		//进度条和显示时间
+ main.prototype.updateProgress = function(){
  		var _this=this
  		var currentTime = this.music.currentTime ,
  			  duration = this.music.duration,
@@ -332,76 +407,6 @@ define(function(){
  			  this.progressNow.style.width = precent*100 + '%'
  }
 
- //获取图片 是图片旋转 将背景设为封面
- getChannel.prototype.img = function(url){
- 	 	var _this = this
- 		this.picture = document.querySelector('.music .background img')
- 		this.circle = document.querySelector('.music .background .circle')
- 	 	this.picture.src = url
- 	 	this.background.style.backgroundImage = 'url(' + url +')'
- 	 	this.circle.style.animation = 'null'
- 	 	console.log(getComputedStyle(this.circle).animation)
- 	 	this.circle.style.animation = '60s rotate infinite linear'
-
-
- }
-
-	//同步歌词
- getChannel.prototype.renderLrc = function(){
- 		//数组元素越界所以var i = 0;i<this.lrcNodesArray.length;
- 		for(var i = 0;i<this.lrcNodes.length;i++){
- 				if(this.lrcNodes[i].getAttribute('data-time') <= this.music.currentTime && this.lrcNodes[i+1].getAttribute('data-time') >this.music.currentTime ){
-				 		if(i >= 1){
-				 				this.lrcNodes[i-1].classList.remove('highLight')
-				 				this.lrc.style.top = this.lrcArray[i].moveTop + 'px'
-				 				this.lrcNodes[i].classList.add('highLight')
-				 				break
-				 		}else{
-				 			//this.lrc.style.top = -this.lrcNodesArray[i-1].moveTop + 'px'
-				 			this.lrcNodes[i].classList.add('highLight')
-				 		break;
-				 		}
-	 			}
- 		}
- }
-
- //getChannel.prototype.getOriginLrc = function(ret){
- //}
-
-// 将歌词插入dom中
- getChannel.prototype.setLrc = function(){
- 	 		var _this = this,
- 	 				height = 120,
- 					reg = /\[(\d{2}):(\d{2})\.(\d{2})\]([^\[]*)/g,
- 					html = '';
-
- 			this.lrcArray = []
-
- 			console.log('this.songLrc')
- 			console.log(this.songLrc)
- 			this.songLrc.replace(reg,function(match,p1,p2,p3,p4){
- 					var minutes = parseInt(p1)*60,
- 							seconds = parseInt(p2) + parseInt(p3)/100,
- 							currentTime = minutes+seconds
- 					return _this.lrcArray.push({
- 							'time':currentTime,
- 							'lrc': p4
- 						})
- 			})
- 			this.lrcArray.forEach(function(obj){
- 				return html+= '<li data-time="' + obj.time +'">' + obj.lrc +'</li>'
- 			})
- 			_this.lrc.innerHTML = html
- 			this.lrcNodes = document.querySelectorAll('.content .lrc ul li')
- 			this.lrcNodesArray = [].slice.call(this.lrcNodes)
-
- 			for(var i = 0; i<this.lrcNodes.length;i++){
- 				height -= this.lrcNodes[i].offsetHeight
- 				this.lrcArray[i].moveTop = height
- 			}
- 			console.log(this.lrcNodesArray)
- 			console.log(this.lrcArray)
- }
-
- return getChannel
+ return main
 })
+

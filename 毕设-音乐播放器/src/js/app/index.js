@@ -1,3 +1,3 @@
-define(['com/getChannel'],function(channel){
-	new channel()
+define(['com/Main'],function(main){
+	new main()
 })
