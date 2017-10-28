@@ -231,7 +231,7 @@ define(function(){
  		var _this = this
  		clearInterval(_this.timer)
  		var channelId = this.channelCt.children[this.index].getAttribute('data-channel-id')
-		this.get('https://jirenguapi.applinzi.com/fm/getSong.php',{channel:channelId},function(ret){
+		this.get('http://api.jirengu.com/fm/getSong.php',{channel:channelId},function(ret){
 			 	_this.renderSong(ret.song[0])
 			 	//获取原始歌词
 			 	//_this.getOriginLrc()
