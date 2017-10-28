@@ -327,10 +327,12 @@ ul,li{
 		 				//this.channelCt.children是类数组
 		 	this.channelCt = document.querySelector('.nav .channel .channel-ct')
 		 	console.log(this)
-		 	console.log('children:')
+		 	console.log('this.channelCt.children:')
 		 	console.log(this.channelCt.children)
-		 	console.log('length')
+		 	console.log('this.channelCt.children.length')
 			console.log(this.channelCt.children.length)
+			console.log('this.channelCt.children[1]')
+			console.log(this.channelCt.children[1])
 		 	var list = [].slice.call(this.channelCt.children)
 		 	console.log('list:')
 		 	console.log(list)
@@ -365,6 +367,14 @@ ul,li{
 
  		 console.log(this.channelCt)
  		 this.channelCt.innerHTML = html
+
+ 		 		 	console.log(this)
+		 	console.log('this.channelCt.children:')
+		 	console.log(this.channelCt.children)
+		 	console.log('this.channelCt.children.length')
+			console.log(this.channelCt.children.length)
+			console.log('this.channelCt.children[1]')
+			console.log(this.channelCt.children[1])
  }
 
 
