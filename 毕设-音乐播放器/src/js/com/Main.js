@@ -35,19 +35,9 @@ define(function(){
  		this.local = false //防止重复点击
 
  		//获取channelCt列表
- 		this.get('https://jirenguapi.applinzi.com/fm/getChannels.php',{},function(ret){ //获取channel
- 			console.log('ret')
- 			console.log("-------------")
- 			_this.renderChannel(ret.channels) //ret.channels是数组
- 			console.log('=============')
- 		})
-
-	 	_this.get('https://jirenguapi.applinzi.com/fm/getSong.php?channel=public_tuijian_spring',{channel:_this.channelId},function(ret){
-	 		_this.renderSong(ret.song[0])
-	 		_this.musicSrc = ret.song[0].url
-	 		_this.play(_this.musicSrc)
-	 	})
-
+ 		this.getChannelCt()
+ 	  //打开网页就开始播放
+ 		this.start()
  		//music相关设置 进度条设置 当前时间设置
  		this.musicSet()
  		//this.renderLrc(this.songLrc)//歌词同步
@@ -157,6 +147,25 @@ define(function(){
  		}
  		xhr.open('GET',url,true)
  		xhr.send()
+ }
+
+ main.prototype.getChannelCt = function(){
+ 	var _this = this
+ 		this.get('https://jirenguapi.applinzi.com/fm/getChannels.php',{},function(ret){ //获取channel
+ 			_this.renderChannel(ret.channels) //ret.channels是数组
+ 		})
+ }
+
+ main.prototype.start = function(){
+ 		var _this = this
+		 	this.get('https://jirenguapi.applinzi.com/fm/getSong.php?channel=public_tuijian_spring',{channel:_this.channelId},function(ret){
+	 		_this.renderSong(ret.song[0])
+	 		_this.musicSrc = ret.song[0].url
+	 		_this.play(_this.musicSrc)
+	 		if(!_this.music.src){
+	 			_this.start()
+	 		}
+	 	})
  }
 
  main.prototype.renderChannel = function(channels){
@@ -305,8 +314,11 @@ define(function(){
 			 	//获取原始歌词
 			 	//_this.getOriginLrc()
 		 		_this.play(ret.song[0].url)
-		})
- }
+		 		if(!ret.song[0].url){
+			 		_this.controlBack()
+		}
+ })
+}
  //下一首
  main.prototype.controlForward = function(){
  		var _this = this
@@ -408,5 +420,6 @@ define(function(){
  }
 
  return main
+
 })
 
