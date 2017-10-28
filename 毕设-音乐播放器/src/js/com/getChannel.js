@@ -334,7 +334,7 @@ define(function(){
 //同步歌词
  getChannel.prototype.renderLrc = function(){
  	//数组元素越界所以var i = 0;i<this.lrcNodesArrary.length;
- 		for(var i = 0;i<this.lrcNodesArrary.length;i++){
+ 		for(var i = 0;i<this.lrcNodes.length;i++){
  				if(this.lrcNodes[i].getAttribute('data-time') <= this.music.currentTime && this.lrcNodes[i+1].getAttribute('data-time') >this.music.currentTime ){
 				 		if(i>=1){
 				 			if(this.lrcNodes[i-1]!=this.lrcNodes[i]){
