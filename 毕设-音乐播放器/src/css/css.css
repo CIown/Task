@@ -33,19 +33,18 @@ html,body{
 }
 .musicbox{
 	width: 100%;
-	height: 100%;
-	background-color: rgb(82,86,102);
+	height:100%;
 }
 
 .musicbox .nav{
-	width: 500px;
+	width: 100%;
 	height: 50px;
-	background-color: rgb(194,166,265);
+	color: white;
 	margin: auto;
 }
 
 .musicbox .nav .back,.nav .forward{
-	width: 40px;
+	width: 3%;
 	height: 50px;
 }
 
@@ -63,7 +62,7 @@ html,body{
 
 .nav .channel{
 	float: left;
-	width: 420px;
+	width: 94%;
 	height: 50px;
 	overflow: hidden;
 	position: relative;
@@ -95,42 +94,81 @@ html,body{
 }
 
 .musicbox .music{
-	width: 500px;
-	height: 555px;
+	width: 50%;
+	height: 84.8%;
 	margin: auto;
+	float: left;
 }
 
 .musicbox .background{
-	height:250px;
-	width: 500px;
-	background-color: black;
+	height:350px;
+	width: 100%;
 }
 
 .musicbox .background .circle{
-	width: 250px;
-	height: 250px;
-	border: 0px solid;
-	border-radius: 100%;
+	width: 350px;
+	height: 350px;
 	overflow: hidden;
-	margin: auto;
+	background-image: url(../img/heijiao.jpg);
+	background-size: contain;
+	background-repeat: no-repeat;
+	border-radius: 50%;
+	margin: 0 auto;
+	margin-top: 80px;
+	border: 3px solid white;
+}
+
+.musicbox .background .circle .rotate{
+	position: relative;
+	width: 72%;
+	height: 72%;
+ 	border-radius: 50%;
+ 	top: 50%;
+ 	left: 50%;
+ 	transform: translate(-50%,-50%);
+ 	overflow: hidden;
+}
+
+.musicbox .icons{
+	width: 500px;
+	height: 50px;
+	margin: 0 auto;
+	margin-top: 50px;
+}
+
+.musicbox .icons .download ,.lyrice,.comment,.love{
+	width: 125px;
+	height: 50px;
+	float: left;
+	text-align: center;
+}
+
+.musicbox .icons .fa{
+	font-size: 20px;
+	vertical-align: middle;
+	color: white;
+}
+
+.musicbox .icons .lyrice .fa{
+	color: rgb(241,97,93);
 }
 
 .musicbox .control-progress{
-	width: 500px;
-	height: 51px;
-	background: rgb(57,60,75);
+	width: 100%;
+	height: 50px;
+	float: left;
 }
 
 .musicbox .control{
-	width: 150px;
+	width: 20%;
 	height: 50px;
-	background-color: rgb(32,34,38);
 	float: left;
+	margin-left: 52px;
 }
 
 
 .musicbox .control .play,.back,.forward{
-	width: 50px;
+	width: 33.333333%;
 	height: 50px;
 	float: left;
 	text-align: center;
@@ -143,14 +181,14 @@ html,body{
 }
 
 .musicbox .control-progress .progress{
-	width: 200px;
+	width: 40%;
 	height: 50px;
 	float: left;
 	position: relative;
 }
 
 .musicbox .control-progress .progress .bar{
-	width: 180px;
+	width: 84%;
 	height: 3px;
 	display: inline-block;
 	margin-left: 13px;
@@ -167,19 +205,20 @@ html,body{
 
 .progress .time{
 	position: absolute;
-	right:0;
+	right:24px;
 	top: 29px;
 	color: white;
 }
 
 .musicbox .volume{
-	width: 150px;
+	width: 20%;
 	height: 50px;
 	float: left;
+	margin-left: 30px;
 }
 
 .volume .icon{
-	width: 40px;
+	width: 20%;
 	height: 50px;
 	float: left;
 	margin-left: 5px;
@@ -193,13 +232,13 @@ html,body{
 }
 
 .volume .volume-progress{
-	width: 100px;
+	width: 76%;
 	height: 50px;
 	float: left;
 }
 
 .volume .volume-progress .bar{
-	width: 90px;
+	width: 80%;
 	height: 3px;
 	background-color: rgb(84,89,108);
 	display: inline-block;
@@ -212,55 +251,62 @@ html,body{
 	height: 100%;
 }
 
-.musicbox .icons{
-	width: 500px;
-	height: 50px;
-	background-color: rgb(249,250,252);
-}
 
-.musicbox .icons .download ,.lyrice,.comment,.love{
-	width: 125px;
-	height: 50px;
-	float: left;
-	text-align: center;
-}
-
-.musicbox .icons .fa{
-	font-size: 20px;
-	vertical-align: middle;
-	color: rgb(208,213,224);
-}
-
-.musicbox .icons .lyrice{
-	background-color: rgb(241,97,93);
-}
-
-.musicbox .icons .lyrice .fa{
-	color: white;
-}
 
 .musicbox .content{
-	width: 500px;
-	height: 266px;
-	background-color: white;
-	text-align: left;
+	float: right;
+	width: 50%;
+	height: 500px;
 	overflow: hidden;
 	position: relative;
+	color: white;
 	text-align: center;
+}
+
+.musicbox .content .title{
+	font-size: 40px;
+}
+
+.musicbox .content .auther{
+	font-size: 20px;
+	padding-bottom: 20px;
+	border-bottom: 2px solid #ccc;
 }
 
 .musicbox .content .lrc{
+	text-align: center;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.content .lrc ul{
+	width: 100%;
 	position: absolute;
-	top:0;
-	left: 50%;
-	transform: translate(-50%,0);
-	margin-top: 50px;
+	top: 120px;
+}
+
+.content .lrc li{
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 .highLight{
-	background-color: rgb(194,166,265);
+	color: rgb(194,166,265);
 }
 
 .active{
 	background-color: rgba(0,0,0,0.1);
+}
+
+#background{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	filter: blur(12px) brightness(0.5);
+	top: 0;
+	left: 0;
+	z-index: -2;
 }
