@@ -34,7 +34,7 @@ define(function(){
  		this.local = false //防止重复点击
 
  		//获取channelCt列表
- 		this.get('http://api.jirengu.com/fm/getChannels.php',{},function(ret){ //获取channel
+ 		this.get('https://jirenguapi.applinzi.com/fm/getChannels.php',{},function(ret){ //获取channel
  			console.log(ret)
  			console.log(ret.channels)
  			_this.renderChannel(ret.channels) //ret.channels是数组
@@ -54,7 +54,7 @@ define(function(){
 	 			return ;
 	 		}else{
 	 			_this.channelId = e.target.getAttribute('data-channel-id')
-	 			_this.get('http://api.jirengu.com/fm/getSong.php',{channel:_this.channelId},function(ret){
+	 			_this.get('https://jirenguapi.applinzi.com/fm/getSong.php',{channel:_this.channelId},function(ret){
 	 				_this.renderSong(ret.song[0])
 	 				_this.musicSrc = ret.song[0].url
 	 				_this.play(_this.musicSrc)
@@ -257,7 +257,7 @@ define(function(){
  			_this.timer = setInterval(function(){
  				_this.updateProgress()
  			//同步歌词
- 				_this.renderLrc(_this.lrcArrary)
+ 				_this.renderLrc(_this.lrcNodesArrary)
  			},1000)
  		})
  		//音乐停止时 清除计时器
@@ -333,17 +333,16 @@ define(function(){
 
 //同步歌词
  getChannel.prototype.renderLrc = function(){
- 	//数组元素越界所以var i = 0;i<this.lrcArrary.length;
- 		console.log(this.lrcNodes)
- 		for(var i = 0;i<this.lrcArrary.length;i++){
+ 	//数组元素越界所以var i = 0;i<this.lrcNodesArrary.length;
+ 		for(var i = 0;i<this.lrcNodesArrary.length;i++){
  				if(this.lrcNodes[i].getAttribute('data-time') <= this.music.currentTime && this.lrcNodes[i+1].getAttribute('data-time') >this.music.currentTime ){
 				 		if(i>=1){
 				 			if(this.lrcNodes[i-1]!=this.lrcNodes[i]){
 				 				this.lrcNodes[i-1].classList.remove('highLight')
-				 				this.lrc.style.top = -this.lrcArrary[i].moveTop + 'px'
+				 				this.lrc.style.top = -this.lrcNodesArrary[i].moveTop + 'px'
 				 			}
 				 		}
-				 		//this.lrc.style.top = -this.lrcArrary[i-1].moveTop + 'px'
+				 		//this.lrc.style.top = -this.lrcNodesArrary[i-1].moveTop + 'px'
 				 		this.lrcNodes[i].classList.add('highLight')
 				 		break;
 	 			}
@@ -357,7 +356,7 @@ define(function(){
  					reg = /\[(\d{2}):(\d{2})\.(\d{2})\]([^\[]*)/g,
  					html = '';
 
- 			this.lrcArrary = []
+ 			this.lrcNodesArrary = []
 
  			console.log('this.songLrc')
  			console.log(this.songLrc)
@@ -365,12 +364,12 @@ define(function(){
  					var minutes = parseInt(p1)*60,
  							seconds = parseInt(p2) + parseInt(p3)/100,
  							currentTime = minutes+seconds
- 					return _this.lrcArrary.push({
+ 					return _this.lrcNodesArrary.push({
  							'time':currentTime,
  							'lrc': p4
  						})
  			})
- 			this.lrcArrary.forEach(function(obj){
+ 			this.lrcNodesArrary.forEach(function(obj){
  				return html+= '<p data-time="' + obj.time +'">' + obj.lrc +'</p>'
  			})
  			_this.lrc.innerHTML = html
@@ -380,9 +379,9 @@ define(function(){
 
  			for(var i = 0; i<this.lrcNodes.length;i++){
  				height += parseInt(getComputedStyle(this.lrcNodes[i]).height)
- 				this.lrcArrary[i].moveTop = height
+ 				this.lrcNodesArrary[i].moveTop = height
  			}
- 			console.log(this.lrcArrary)
+ 			console.log(this.lrcNodesArrary)
  }
 
  return getChannel
