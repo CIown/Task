@@ -129,6 +129,11 @@ html,body{
  	overflow: hidden;
 }
 
+.musicbox .background .circle .rotate img{
+	margin-top: -24px;
+	margin-left: -24px;
+}
+
 .musicbox .icons{
 	width: 500px;
 	height: 50px;
@@ -309,4 +314,5 @@ html,body{
 	top: 0;
 	left: 0;
 	z-index: -2;
+	background-image: url(../img/black.jpg);
 }

@@ -214,15 +214,21 @@ define(function(){
  		this.picture = document.querySelector('.music .background img')
  		this.circle = document.querySelector('.music .background .circle')
  	 	this.picture.src = url
- 	 	this.background.style.backgroundImage = 'url(' + url +')'
  	 	this.circle.style.animation = 'null'
- 	 	console.log(getComputedStyle(this.circle).animation)
  	 	this.circle.style.animation = '60s rotate infinite linear'
+ 	 	if(!this.picture.src){
+ 	 		return;
+ 	 	}else{
+	 	 	this.background.style.backgroundImage = 'url(' + url +')'
+ 	 	}
  }
 	//同步歌词
  main.prototype.renderLrc = function(){
  		//数组元素越界所以var i = 0;i<this.lrcNodesArray.length;
  		for(var i = 0;i<this.lrcNodes.length;i++){
+ 			if(this.lrcNodes.length <= 2){
+ 				return;
+ 			}else{
  				if(this.lrcNodes[i].getAttribute('data-time') <= this.music.currentTime && this.lrcNodes[i+1].getAttribute('data-time') >this.music.currentTime ){
 				 		if(i >= 1){
 				 				this.lrcNodes[i-1].classList.remove('highLight')
@@ -235,42 +241,48 @@ define(function(){
 				 		break;
 				 		}
 	 			}
+	 		}
  		}
  }
 
 // 将歌词插入dom中
  main.prototype.setLrc = function(){
- 	 		var _this = this,
- 	 				height = 120,
- 					reg = /\[(\d{2}):(\d{2})\.(\d{2})\]([^\[]*)/g,
- 					html = '';
+	 	if(!this.songLrc){
+	 		this.lrc.innerText = '没有歌词'
+	 	}else{
+	 	 		var _this = this,
+	 	 				height = 120,
+	 					reg = /\[(\d{2}):(\d{2})\.(\d{2})\]([^\[]*)/g,
+	 					html = '';
+	 			this.lrcArray = []
 
- 			this.lrcArray = []
+	 			console.log('this.songLrc')
+	 			console.log(this.songLrc)
+	 			this.songLrc.replace(reg,function(match,p1,p2,p3,p4){
+	 					var minutes = parseInt(p1)*60,
+	 							seconds = parseInt(p2) + parseInt(p3)/100,
+	 							currentTime = minutes+seconds
+	 					return _this.lrcArray.push({
+	 							'time':currentTime,
+	 							'lrc': p4
+	 						})
+	 			})
+	 			this.lrcArray.forEach(function(obj){
+	 				return html+= '<li data-time="' + obj.time +'">' + obj.lrc +'</li>'
+	 			})
+	 			_this.lrc.innerHTML = html
+	 			this.lrcNodes = document.querySelectorAll('.content .lrc ul li')
+	 			this.lrcNodesArray = [].slice.call(this.lrcNodes)
 
- 			console.log('this.songLrc')
- 			console.log(this.songLrc)
- 			this.songLrc.replace(reg,function(match,p1,p2,p3,p4){
- 					var minutes = parseInt(p1)*60,
- 							seconds = parseInt(p2) + parseInt(p3)/100,
- 							currentTime = minutes+seconds
- 					return _this.lrcArray.push({
- 							'time':currentTime,
- 							'lrc': p4
- 						})
- 			})
- 			this.lrcArray.forEach(function(obj){
- 				return html+= '<li data-time="' + obj.time +'">' + obj.lrc +'</li>'
- 			})
- 			_this.lrc.innerHTML = html
- 			this.lrcNodes = document.querySelectorAll('.content .lrc ul li')
- 			this.lrcNodesArray = [].slice.call(this.lrcNodes)
+	 			for(var i = 0; i<this.lrcNodes.length;i++){
+	 				height -= this.lrcNodes[i].offsetHeight
+	 				this.lrcArray[i].moveTop = height
+	 			}
 
- 			for(var i = 0; i<this.lrcNodes.length;i++){
- 				height -= this.lrcNodes[i].offsetHeight
- 				this.lrcArray[i].moveTop = height
- 			}
- 			console.log(this.lrcNodesArray)
- 			console.log(this.lrcArray)
+	 			console.log(this.songLrc.match(/\[(\d{2}):(\d{2})\.(\d{2})\]([^\[]*)/g))
+	 			console.log(this.lrcArray)
+	 			console.log(this.lrcNodes)
+	 	}
  }
 
 
@@ -350,14 +362,17 @@ define(function(){
 
  		//获取当前播放时间和进度条
  		this.music.addEventListener('playing',function(){
- 			 _this.lrcMoveTop = 0//每次歌词移动的高度
- 			//获取原始歌词
- 			//_this.getOriginLrc()
- 			//进度条和同步歌词
+ 				 _this.lrcMoveTop = 0//每次歌词移动的高度
+
+ 				//进度条和同步歌词
  			_this.timer = setInterval(function(){
  				_this.updateProgress()
- 			//同步歌词
- 				_this.renderLrc(_this.lrcNodesArray)
+ 				//同步歌词
+	 			if(!_this.songLrc){
+	 				return;
+	 			}else{
+	 				_this.renderLrc(_this.lrcNodesArray)
+	 			}
  			},1000)
  		})
 
@@ -408,7 +423,7 @@ define(function(){
 		//进度条和显示时间
  main.prototype.updateProgress = function(){
  		var _this=this
- 		var currentTime = this.music.currentTime ,
+ 		var currentTime = this.music.currentTime,
  			  duration = this.music.duration,
  			  minutes = parseInt(currentTime / 60 ),
  			  seconds = parseInt(currentTime % 60 )+'',
