@@ -54,7 +54,7 @@ li:hover{
  button.onclick = function(){
  var req = new XMLHttpRequest()
 
-  req.open('GET','/xxx')
+  req.open('GET','/xxx',true) //默认为true（异步）
 
   req.onreadystatechange = function(){
         if(req.readyState === 0){
